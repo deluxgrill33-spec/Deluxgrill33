@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delux Grill | Laatzen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e63946;
+            --secondary: #d4af37;
+            --dark: #121212;
+            --darker: #0a0a0a;
+            --card-bg: #1e1e1e;
+            --text: #f1f1f1;
+            --text-muted: #aaa;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { background-color: var(--dark); color: var(--text); line-height: 1.6; }
+        header { background: var(--darker); position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 2px solid var(--secondary); display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; }
+        .logo { font-size: 24px; font-weight: 700; color: var(--secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .logo span { color: var(--primary); }
+        .contact-btn { background: var(--primary); color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .contact-btn:hover { background: #c52835; }
+        .hero { height: 70vh; background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=80') center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 0 20px; margin-top: 60px; }
+        .hero h1 { font-size: 3rem; color: var(--secondary); margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 20px; }
+        .container { max-width: 1200px; margin: auto; padding: 40px 20px; }
+        .section-title { text-align: center; font-size: 2.2rem; margin-bottom: 30px; color: var(--secondary); position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 3px; background: var(--primary); display: block; margin: 8px auto 0; border-radius: 2px; }
+        .categories { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+        .cat-btn { background: var(--card-bg); border: 1px solid #333; color: var(--text); padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-weight: 500; }
+        .cat-btn.active, .cat-btn:hover { background: var(--secondary); color: var(--darker); border-color: var(--secondary); }
+        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .menu-item { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid #2a2a2a; transition: transform 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-item:hover { transform: translateY(-5px); border-color: var(--secondary); }
+        .item-content { padding: 20px; }
+        .item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .item-title { font-size: 1.2rem; font-weight: 600; color: var(--text); }
+        .item-price { color: var(--secondary); font-weight: 700; font-size: 1.1rem; }
+        .item-desc { color: var(--text-muted); font-size: 0.9rem; }
+        .info-section { background: var(--darker); border-radius: 12px; padding: 30px; margin-top: 50px; border: 1px solid #222; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+        .info-box h3 { color: var(--secondary); margin-bottom: 15px; font-size: 1.3rem; }
+        .info-box p { color: var(--text-muted); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+        footer { text-align: center; padding: 20px; background: #050505; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid #1a1a1a; margin-top: 40px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Delux<span>Grill</span></div>
+        <a href="tel:0511000000" class="contact-btn"><i class="fas fa-phone-alt"></i> Anrufen</a>
+    </header>
+
+    <section class="hero">
+        <h1>Willkommen bei Delux Grill</h1>
+        <p>Genießen Sie die besten Döner, Pizza, Pide und mehr in Laatzen!</p>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Unsere Speisekarte</h2>
+        
+        <div class="categories">
+            <button class="cat-btn active" onclick="filterMenu('all', event)">Alle</button>
+            <button class="cat-btn" onclick="filterMenu('doener', event)">Döner</button>
+            <button class="cat-btn" onclick="filterMenu('pizza', event)">Pizza</button>
+            <button class="cat-btn" onclick="filterMenu('pide', event)">Pide</button>
+            <button class="cat-btn" onclick="filterMenu('lahmacun', event)">Lahmacun</button>
+            <button class="cat-btn" onclick="filterMenu('hamburger', event)">Hamburger</button>
+            <button class="cat-btn" onclick="filterMenu('salat', event)">Salat</button>
+        </div>
+
+        <div class="menu-grid" id="menu-grid">
+            <div class="menu-item" data-category="doener">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Döner Kebap</span>
+                        <span class="item-price">7,50 €</span>
+                    </div>
+                    <p class="item-desc">Knuspriges Fladenbrot mit zartem Fleisch, frischem Salat und Spezialsoße.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="doener">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Döner Teller</span>
+                        <span class="item-price">11,50 €</span>
+                    </div>
+                    <p class="item-desc">Dönerfleisch serviert mit Pommes, Salat und zwei Saucen nach Wahl.</p>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="pizza">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Pizza Margherita</span>
+                        <span class="item-price">8,00 €</span>
+                    </div>
+                    <p class="item-desc">Klassische Pizza mit Tomatensauce und reichlich Mozzarella-Käse.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="pizza">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Pizza Salami & Schinken</span>
+                        <span class="item-price">9,50 €</span>
+                    </div>
+                    <p class="item-desc">Belegt mit würziger Salami, saftigem Schinken und Käse.</p>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="pide">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Pide mit Hackfleisch</span>
+                        <span class="item-price">9,00 €</span>
+                    </div>
+                    <p class="item-desc">Türkische Teigschiffchen gefüllt mit gewürztem Hackfleisch und Kräutern.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="pide">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Pide mit Käse & Sucuk</span>
+                        <span class="item-price">9,80 €</span>
+                    </div>
+                    <p class="item-desc">Knusprige Pide mit türkischer Knoblauchwurst (Sucuk) und geschmolzenem Käse.</p>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="lahmacun">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Lahmacun (Klassisch)</span>
+                        <span class="item-price">6,00 €</span>
+                    </div>
+                    <p class="item-desc">Türkische Lahmacun frisch gebacken mit feiner Hackfleischmischung und Zitrone.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="lahmacun">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Lahmacun mit Dönerfleisch</span>
+                        <span class="item-price">9,50 €</span>
+                    </div>
+                    <p class="item-desc">Lahmacun gefüllt mit saftigem Dönerfleisch und frischem Salat.</p>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="hamburger">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Delux Classic Burger</span>
+                        <span class="item-price">8,50 €</span>
+                    </div>
+                    <p class="item-desc">Saftiges Rindersteak, Salat, Tomaten, Gurken und Burgersoße.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="hamburger">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Cheeseburger Menü</span>
+                        <span class="item-price">11,00 €</span>
+                    </div>
+                    <p class="item-desc">Mit doppelt Käse, Pommes frites und einem Getränk nach Wahl.</p>
+                </div>
+            </div>
+
+            <div class="menu-item" data-category="salat">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Bauernsalat</span>
+                        <span class="item-price">7,00 €</span>
+                    </div>
+                    <p class="item-desc">Frischer Salat mit Tomaten, Gurken, Oliven, Schafskäse und Dressing.</p>
+                </div>
+            </div>
+            <div class="menu-item" data-category="salat">
+                <div class="item-content">
+                    <div class="item-header">
+                        <span class="item-title">Hähnchen-Spezial Salat</span>
+                        <span class="item-price">9,00 €</span>
+                    </div>
+                    <p class="item-desc">Gemischter Salat getoppt mit gegrillten Hähnchenstreifen.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="info-box">
+                <h3><i class="fas fa-map-marker-alt"></i> Adresse</h3>
+                <p>Hildesheimer Str. 520</p>
+                <p>30880 Laatzen</p>
+            </div>
+            <div class="info-box">
+                <h3><i class="fas fa-clock"></i> Öffnungszeiten</h3>
+                <p>Montag - Sonntag:</p>
+                <p>11:00 - 22:00 Uhr</p>
+            </div>
+            <div class="info-box">
+                <h3><i class="fas fa-headset"></i> Kontakt</h3>
+                <p><i class="fas fa-phone"></i> Bestellen & Info</p>
+                <p><i class="fas fa-utensils"></i> Frische Qualität</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Delux Grill Laatzen. Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        function filterMenu(category, event) {
+            const items = document.querySelectorAll('.menu-item');
+            const buttons = document.querySelectorAll('.cat-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            if(event && event.target) {
+                event.target.classList.add('active');
+            }
+
+            items.forEach(item => {
+                if (category === 'all' || item.getAttribute('data-category') === category) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
